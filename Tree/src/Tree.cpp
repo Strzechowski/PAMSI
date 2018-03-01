@@ -10,6 +10,19 @@ Tree::~Tree()
     //dtor
 }
 
+
+int Tree::get_height(Node * node)
+{
+    if(node != NULL)
+    {
+        int height;
+        height = 1 + max( get_height(node->right), get_height(node->left) );
+        return height;
+    }
+    return -1;
+}
+
+
 void Tree::add_node(int nodeValue)
 {
     if (root == NULL)
@@ -46,7 +59,8 @@ void Tree::add_node(int nodeValue, Node * nodeToInsert)
             add_node(nodeValue, nodeToInsert->left);
         }
     }
-    else
+    //Nie chcemy, aby dodawane byly wezly o powtarzajacych sie wartosciach.
+    else if (nodeToInsert->value < nodeValue)
     {
         if (nodeToInsert->right == NULL)
         {

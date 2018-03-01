@@ -60,5 +60,7 @@ int main()
     postorder(tree.root);
     cout << " " << endl;
 
+    cout << tree.get_height(tree.root);
+
     return 0;
 }
