@@ -47,7 +47,6 @@ int main()
         cin >> data;
     }
 
-
     cout << "Pre-order:  ";
     preorder(tree.root);
     cout << " " << endl;
@@ -60,7 +59,11 @@ int main()
     postorder(tree.root);
     cout << " " << endl;
 
-    cout << tree.get_height(tree.root);
+    cout << tree.get_height(tree.root) << endl;
+
+   // cout << "Pre-order  po rotacji RR wzgledem root->left: ";
+    //rotation_left(tree.root->right);
+   // preorder(tree.root);
 
     return 0;
 }

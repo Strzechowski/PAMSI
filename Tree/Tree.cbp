@@ -34,8 +34,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Node.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="include/Tree.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Node.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src/Tree.cpp" />
 		<Extensions>
 			<code_completion />
