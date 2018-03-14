@@ -59,11 +59,16 @@ int main()
     postorder(tree.root);
     cout << " " << endl;
 
-    cout << tree.get_height(tree.root) << endl;
 
-   // cout << "Pre-order  po rotacji RR wzgledem root->left: ";
-    //rotation_left(tree.root->right);
-   // preorder(tree.root);
+    cout<< tree.get_root_height() << endl;
+
+    tree.root = tree.remove_node(6,tree.root);
+    tree.check_balance(tree.nodeToBeBalanced);
+
+    cout << "Pre-order:  ";
+    preorder(tree.root);
+    cout << " " << endl;
+
 
     return 0;
 }

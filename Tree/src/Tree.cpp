@@ -1,17 +1,24 @@
 #include "Tree.h"
 
 /********************************************
-Komentarze do funckji znajduja sie w pliku .h
+Komentarze do funkcji znajduja sie w pliku .h
 *********************************************/
 
 Tree::Tree()
 {
     root = NULL;
+    nodeToBeBalanced = NULL;
 }
 
 Tree::~Tree()
 {
     //dtor
+}
+
+
+int Tree::get_root_height()
+{
+    return get_height(root);
 }
 
 
@@ -27,16 +34,24 @@ int Tree::get_height(Node * node)
 }
 
 
+Node * Tree::initialize_node(int nodeValue, Node * fatherNode = NULL)
+{
+    Node * node = new Node;
+    node->up = fatherNode;
+    node->left = NULL;
+    node->right = NULL;
+    node->value = nodeValue;
+    node->balance = 0;
+
+    return node;
+}
+
+
 void Tree::add_node(int nodeValue)
 {
     if (root == NULL)
     {
-        root = new Node;
-        root->up = NULL;
-        root->left = NULL;
-        root->right = NULL;
-        root->value = nodeValue;
-        root->balance = 0;
+        root = initialize_node(nodeValue);
     }
     else
     {
@@ -53,7 +68,14 @@ Node * Tree::rotation_right(Node * node)
 
     if (A != NULL)
     {
-        A->left = C;
+        if(A->value < B->value)
+        {
+            A->right = C;
+        }
+        else
+        {
+            A->left = C;
+        }
         C->up = A;
     }
     else
@@ -76,7 +98,6 @@ Node * Tree::rotation_right(Node * node)
 }
 
 
-
 Node * Tree::rotation_left(Node * node)
 {
     Node * A = node->up;
@@ -85,7 +106,14 @@ Node * Tree::rotation_left(Node * node)
 
     if (A != NULL)
     {
-        A->right = C;
+        if (A->value < B->value)
+        {
+            A->right = C;
+        }
+        else
+        {
+            A->left = C;
+        }
         C->up = A;
     }
     else
@@ -110,58 +138,51 @@ Node * Tree::rotation_left(Node * node)
 
 void Tree::check_balance(Node * nodeToCheck)
 {
-    nodeToCheck->balance = get_height(nodeToCheck->right) - get_height(nodeToCheck->left);
-    cout << nodeToCheck->balance << endl;
-    cout << "wartosc " << nodeToCheck->value << endl;
-
-    if (nodeToCheck->balance == 2)
+    if (nodeToCheck != NULL)
     {
-        if (nodeToCheck->right->balance == 1)
+        nodeToCheck->balance = get_height(nodeToCheck->right) - get_height(nodeToCheck->left);
+
+        if (nodeToCheck->balance == 2)
         {
-            nodeToCheck = rotation_left(nodeToCheck);
-            cout << "bylem " << endl;
+            if (nodeToCheck->right->balance >= 0)
+            {
+                nodeToCheck = rotation_left(nodeToCheck);
+            }
+            else
+            {
+                nodeToCheck = rotation_right(nodeToCheck->right);
+                nodeToCheck = rotation_left(nodeToCheck->up); //demo !!!!
+            }
+        }
+        if (nodeToCheck->balance == -2)
+        {
+            if (nodeToCheck->left->balance >= 0)
+            {
+                nodeToCheck = rotation_left(nodeToCheck->left);
+                nodeToCheck = rotation_right(nodeToCheck->up);
+            }
+            else
+            {
+                nodeToCheck = rotation_right(nodeToCheck);
+            }
         }
         else
         {
-            nodeToCheck = rotation_right(nodeToCheck->right);
-            nodeToCheck = rotation_left(nodeToCheck);
+            //Uruchamiamy dalsze rekurencyjne liczenie balansu
+            check_balance(nodeToCheck->up);
         }
     }
-    if (nodeToCheck->balance == -2)
-    {
-        if (nodeToCheck->left->balance == 1)
-        {
-            nodeToCheck = rotation_left(nodeToCheck->left);
-            nodeToCheck = rotation_right(nodeToCheck);
-        }
-        else
-        {
-            nodeToCheck = rotation_right(nodeToCheck);
-        }
-    }
-
-
-    //Uruchamiamy dalsze rekurencyjne liczenie balansu
-    if (nodeToCheck->up != NULL)
-    {
-        cout << " BYLEM " << endl;
-        check_balance(nodeToCheck->up);
-    }
-
 }
+
 
 void Tree::add_node(int nodeValue, Node * nodeToInsert)
 {
+
     if (nodeToInsert->value > nodeValue)
     {
         if (nodeToInsert->left == NULL)
         {
-            nodeToInsert->left = new Node;
-            nodeToInsert->left->up = nodeToInsert;
-            nodeToInsert->left->left = NULL;
-            nodeToInsert->left->right = NULL;
-            nodeToInsert->left->value = nodeValue;
-            nodeToInsert->left->balance = 0;
+            nodeToInsert->left = initialize_node(nodeValue, nodeToInsert);
 
             //Sprawdzamy balans wezlow ponad nowo dodanym
             check_balance(nodeToInsert);
@@ -176,12 +197,7 @@ void Tree::add_node(int nodeValue, Node * nodeToInsert)
     {
         if (nodeToInsert->right == NULL)
         {
-            nodeToInsert->right = new Node;
-            nodeToInsert->right->up = nodeToInsert;
-            nodeToInsert->right->left = NULL;
-            nodeToInsert->right->right = NULL;
-            nodeToInsert->right->value = nodeValue;
-            nodeToInsert->right->balance = 0;
+            nodeToInsert->right = initialize_node(nodeValue, nodeToInsert);
 
             //Sprawdzamy balans wezlow ponad nowo dodanym
             check_balance(nodeToInsert);
@@ -193,23 +209,64 @@ void Tree::add_node(int nodeValue, Node * nodeToInsert)
     }
 }
 
+/*********************
+    USUWANIE WEZLOW
+**********************/
 
-void Tree::remove_node(int nodeValue, Node * nodeThatMightBeRemoved)
+Node * Tree::remove_node(int nodeValue, Node * nodeToBeRemoved)
 {
-    if(nodeThatMightBeRemoved != NULL)
+    if (nodeToBeRemoved != NULL)
     {
-        if(nodeThatMightBeRemoved->value == nodeValue)
-        {
 
-        }
-        else if(nodeThatMightBeRemoved->value > nodeValue)
+        if (nodeToBeRemoved->value > nodeValue)
         {
-            remove_node(nodeValue, nodeThatMightBeRemoved->left);
+            nodeToBeRemoved->left = remove_node(nodeValue, nodeToBeRemoved->left);
         }
-        else
+
+        else if (nodeToBeRemoved->value < nodeValue)
         {
-            remove_node(nodeValue, nodeThatMightBeRemoved->right);
+            nodeToBeRemoved->right = remove_node(nodeValue, nodeToBeRemoved->right);
+        }
+        else   //rzeczywiste usuwanie
+        {
+            //jeden potomek lub ich brak
+            if ( (nodeToBeRemoved->right == NULL ) )
+            {
+                Node * temp = nodeToBeRemoved->left;
+                nodeToBeBalanced = nodeToBeRemoved->up; //zapisanie wezla, od ktorego bedziemy sprawdzac balans
+                delete nodeToBeRemoved;
+                return temp;
+            }
+            else if ( (nodeToBeRemoved->left == NULL ) )
+            {
+                Node * temp = nodeToBeRemoved->right;
+                nodeToBeBalanced = nodeToBeRemoved->up;
+                delete nodeToBeRemoved;
+                return temp;
+            }
+            else
+            {
+                //jesli wezel ma 2 potomkow to musimy znalezc najmniejszego potomka
+                //w jego prawym drzewie i uzyc jego wartosci jako nowej wartosci wezla
+                int newNodeValue = find_the_smallest_node(nodeToBeRemoved->right);
+                remove_node(newNodeValue, root);
+                nodeToBeRemoved->value = newNodeValue;
+            }
         }
     }
-
+    return nodeToBeRemoved;
 }
+
+int Tree::find_the_smallest_node(Node * node)
+{
+    if (node->left != NULL)
+    {
+        return find_the_smallest_node(node->left);
+    }
+    else
+    {
+        int theSmallestValue = node->value;
+        return theSmallestValue;
+    }
+}
+
