@@ -12,16 +12,30 @@
 1519841749 source:c:\users\rafal\desktop\prog\codeblocks_projety\tree\src\tree.cpp
 	"Tree.h"
 
-1521023914 source:c:\users\rafal\desktop\pamsi\tree\main.cpp
+1521118673 source:c:\users\rafal\desktop\pamsi\tree\main.cpp
 	<iostream>
-	"Tree.h"
+	"Menu.h"
 
-1521022975 c:\users\rafal\desktop\pamsi\tree\include\tree.h
-	<iostream>
+1521826175 c:\users\rafal\desktop\pamsi\tree\include\tree.h
 	"Node.h"
 
-1521024281 source:c:\users\rafal\desktop\pamsi\tree\src\tree.cpp
+1521118960 source:c:\users\rafal\desktop\pamsi\tree\src\tree.cpp
 	"Tree.h"
 
-1520284826 c:\users\rafal\desktop\pamsi\tree\include\node.h
+1521122081 c:\users\rafal\desktop\pamsi\tree\include\node.h
+	<iostream>
+
+1521826029 source:c:\users\rafal\desktop\pamsi\tree\src\menu.cpp
+	"Menu.h"
+	"Traversal.h"
+	<stdlib.h>
+
+1521826112 c:\users\rafal\desktop\pamsi\tree\include\menu.h
+	"Tree.h"
+
+1521826029 source:c:\users\rafal\desktop\pamsi\tree\src\traversal.cpp
+	"Traversal.h"
+
+1521122274 c:\users\rafal\desktop\pamsi\tree\include\traversal.h
+	"Node.h"
 

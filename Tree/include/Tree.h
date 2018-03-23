@@ -1,10 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
-#include <iostream>
 #include "Node.h"
 
-
-using namespace std;
 
 /**
 Klasa drzewa
@@ -12,14 +9,19 @@ Klasa drzewa
 class Tree
 {
 public:
-    Node * root;
-    Node * nodeToBeBalanced;
-
     /**
     *Inicjujemy korzen
     */
     Tree();
     virtual ~Tree();
+
+    /**
+    Zwraca korzen drzewa
+    */
+    Node * get_root()
+    {
+        return root;
+    }
 
     /**
     *Uzywa prywatnej funkcji get_height z poziomu korzenia
@@ -34,17 +36,34 @@ public:
     */
     void add_node(int nodeValue);
 
+    /**
+    Funkcja wywoluje funkcje prywatna do usuwania wezla oraz
+    sprawdza balans drzewa
+    */
+    void remove_node(int nodeValue);
+
+
+private:
+    Node * root;
+    Node * nodeToBeBalanced;
 
     /**
-    *Nie gotowe
+    *Funkcja zwraca wysokosc drzewa zaczynajac od wezla, ktory jej podamy.
+    *Uznaje, ze sam korzen zwraca wysokosc 0.
     */
-    Node * remove_node(int nodeValue, Node * nodeThatMightBeRemoved);
+    int get_height(Node * node);
 
 
     /**
-    *Funkcja oblicza balans wezla i wykonuje ewentualne obroty
+    *Funkcja wykorzystuje rekurencje, aby dodac nowy wezel do juz istniejacych.
     */
-    void check_balance(Node * nodeToCheck);
+    void add_node(int nodeValue, Node * nodeToInsert);
+
+
+    /**
+    *Inicjalizuje nowy wezel
+    */
+    Node * initialize_node(int nodeValue, Node * fatherNode);
 
 
     /**
@@ -76,29 +95,23 @@ public:
     */
     Node * rotation_right(Node * node);
 
+
+    /**
+    *Funkcja oblicza balans wezla i wykonuje ewentualne obroty
+    */
+    void check_balance(Node * nodeToCheck);
+
+
+    /**
+    *Prywatna funkcja wykorzystujaca rekurencje do usuwania wezla
+    */
+    Node * remove_node(int nodeValue, Node * nodeThatMightBeRemoved);
+
+
     /**
     *Znajduje najmniejszego potomka wezla
     */
     int find_the_smallest_node(Node * node);
-
-    Node * which_child_to_choose(int nodeValue, Node * nodeFather);
-
-private:
-
-    /**
-    *Funkcja wykorzystuje rekurencje, aby dodac nowy wezel do juz istniejacych.
-    */
-    void add_node(int nodeValue, Node * nodeToInsert);
-
-    /**
-    *Funkcja zwraca wysokosc drzewa zaczynajac od wezla, ktory jej podamy.
-    */
-    int get_height(Node * node);
-
-    /**
-    *Inicjalizuje nowy wezel
-    */
-    Node * initialize_node(int nodeValue, Node * fatherNode);
 };
 
 #endif // TREE_H

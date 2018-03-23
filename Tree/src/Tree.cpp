@@ -16,6 +16,10 @@ Tree::~Tree()
 }
 
 
+
+/***************
+Wsokosc drzewa
+****************/
 int Tree::get_root_height()
 {
     return get_height(root);
@@ -34,6 +38,9 @@ int Tree::get_height(Node * node)
 }
 
 
+/****************
+Dodawanie wezlow
+*****************/
 Node * Tree::initialize_node(int nodeValue, Node * fatherNode = NULL)
 {
     Node * node = new Node;
@@ -60,6 +67,49 @@ void Tree::add_node(int nodeValue)
 }
 
 
+void Tree::add_node(int nodeValue, Node * nodeToInsert)
+{
+
+    if (nodeToInsert->value > nodeValue)
+    {
+        if (nodeToInsert->left == NULL)
+        {
+            nodeToInsert->left = initialize_node(nodeValue, nodeToInsert);
+
+            //Sprawdzamy balans wezlow ponad nowo dodanym
+            check_balance(nodeToInsert);
+        }
+        else
+        {
+            add_node(nodeValue, nodeToInsert->left);
+        }
+    }
+    //Nie chcemy, aby dodawane byly wezly o powtarzajacych sie wartosciach.
+    else if (nodeToInsert->value < nodeValue)
+    {
+        if (nodeToInsert->right == NULL)
+        {
+            nodeToInsert->right = initialize_node(nodeValue, nodeToInsert);
+
+            //Sprawdzamy balans wezlow ponad nowo dodanym
+            check_balance(nodeToInsert);
+        }
+        else
+        {
+            add_node(nodeValue, nodeToInsert->right);
+        }
+    }
+}
+
+
+
+/****************
+Rotacje i balans
+*****************/
+
+/*
+Rotacje sa troche zagmatwane ale rysunek w .h wiele wyjasnia
+*/
 Node * Tree::rotation_right(Node * node)
 {
     Node * A = node->up;
@@ -140,8 +190,10 @@ void Tree::check_balance(Node * nodeToCheck)
 {
     if (nodeToCheck != NULL)
     {
+        //najpierw liczymy balans
         nodeToCheck->balance = get_height(nodeToCheck->right) - get_height(nodeToCheck->left);
 
+        //potem sprawdzamy jaka rotacje wykonac
         if (nodeToCheck->balance == 2)
         {
             if (nodeToCheck->right->balance >= 0)
@@ -151,7 +203,7 @@ void Tree::check_balance(Node * nodeToCheck)
             else
             {
                 nodeToCheck = rotation_right(nodeToCheck->right);
-                nodeToCheck = rotation_left(nodeToCheck->up); //demo !!!!
+                nodeToCheck = rotation_left(nodeToCheck->up);
             }
         }
         if (nodeToCheck->balance == -2)
@@ -168,50 +220,23 @@ void Tree::check_balance(Node * nodeToCheck)
         }
         else
         {
-            //Uruchamiamy dalsze rekurencyjne liczenie balansu
+            //uruchamiamy dalsze rekurencyjne liczenie balansu
             check_balance(nodeToCheck->up);
         }
     }
 }
 
 
-void Tree::add_node(int nodeValue, Node * nodeToInsert)
-{
-
-    if (nodeToInsert->value > nodeValue)
-    {
-        if (nodeToInsert->left == NULL)
-        {
-            nodeToInsert->left = initialize_node(nodeValue, nodeToInsert);
-
-            //Sprawdzamy balans wezlow ponad nowo dodanym
-            check_balance(nodeToInsert);
-        }
-        else
-        {
-            add_node(nodeValue, nodeToInsert->left);
-        }
-    }
-    //Nie chcemy, aby dodawane byly wezly o powtarzajacych sie wartosciach.
-    else if (nodeToInsert->value < nodeValue)
-    {
-        if (nodeToInsert->right == NULL)
-        {
-            nodeToInsert->right = initialize_node(nodeValue, nodeToInsert);
-
-            //Sprawdzamy balans wezlow ponad nowo dodanym
-            check_balance(nodeToInsert);
-        }
-        else
-        {
-            add_node(nodeValue, nodeToInsert->right);
-        }
-    }
-}
 
 /*********************
     USUWANIE WEZLOW
 **********************/
+void Tree::remove_node(int nodeValue)
+{
+    remove_node(nodeValue, root);
+    check_balance(nodeToBeBalanced);
+}
+
 
 Node * Tree::remove_node(int nodeValue, Node * nodeToBeRemoved)
 {
