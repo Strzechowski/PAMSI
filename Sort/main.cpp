@@ -6,6 +6,6 @@ using namespace std;
 int main()
 {
     Table table;
-    table.makeTestOnArray();
+    table.testSort();
     return 0;
 }

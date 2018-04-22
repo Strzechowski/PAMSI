@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <algorithm>
+#include <chrono>
 #include "Sorts.h"
 
 using namespace std;
@@ -20,19 +21,23 @@ class Table
         /**
         Publiczna funkcja do przeprowadzania testów na tablicy
         */
-        void makeTestOnArray();
+        void testSort();
 
     private:
-        int sizeOfArray;
+        int testAmount;
 
         /**
         Wypisuje elementy tablicy
         */
-        void printArray(int arr[]);
+        void printArray(int arr[], int sizeOfArray);
         /**
         Wypelnia tablice elementami
         */
-        int * createArray(int arr[]);
+        int * createArray(int arr[], int sizeOfArray, double percentOfSort);
+        /**
+        Wykonuje pojedynczy test
+        */
+        void makeTestOnArray(int arr[], int sizeOfArray, int whichSort);
 };
 
 #endif // TABLE_H

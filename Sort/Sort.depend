@@ -1,21 +1,23 @@
 # depslib dependency file v1.0
-1523192119 source:c:\users\rafal\desktop\pamsi\sort\main.cpp
+1524355718 source:c:\users\rafal\desktop\pamsi\sort\main.cpp
 	<iostream>
 	"Table.h"
 
-1523192262 c:\users\rafal\desktop\pamsi\sort\include\table.h
+1524393744 c:\users\rafal\desktop\pamsi\sort\include\table.h
 	<iostream>
 	<stdlib.h>
 	<time.h>
 	<algorithm>
+	<chrono>
 	"Sorts.h"
 
-1523835887 c:\users\rafal\desktop\pamsi\sort\include\sorts.h
+1524354890 c:\users\rafal\desktop\pamsi\sort\include\sorts.h
 	<iostream>
+	<math.h>
 
-1523836481 source:c:\users\rafal\desktop\pamsi\sort\src\table.cpp
+1524403041 source:c:\users\rafal\desktop\pamsi\sort\src\table.cpp
 	"Table.h"
 
-1523915239 source:c:\users\rafal\desktop\pamsi\sort\src\sorts.cpp
+1524402396 source:c:\users\rafal\desktop\pamsi\sort\src\sorts.cpp
 	"Sorts.h"
 
