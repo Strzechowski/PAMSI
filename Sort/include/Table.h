@@ -9,35 +9,35 @@
 
 using namespace std;
 
+template <class T>
 class Table
 {
     public:
-        /**
-        Konstruktor inicjalizuje rozmiar tablicy
-        */
+
         Table();
         virtual ~Table();
-
         /**
-        Publiczna funkcja do przeprowadzania testów na tablicy
+        Publiczna funkcja do przeprowadzania testów algorytmów
         */
         void testSort();
 
     private:
-        int testAmount;
-
+        /**
+        Sprawdza czy tablica jest dobrze posortowana
+        */
+        void checkIfSortedGood(T arr[], int sizeOfArray);
         /**
         Wypisuje elementy tablicy
         */
-        void printArray(int arr[], int sizeOfArray);
+        void printArray(T arr[], int sizeOfArray);
         /**
         Wypelnia tablice elementami
         */
-        int * createArray(int arr[], int sizeOfArray, double percentOfSort);
+        T * createArray(T arr[], int sizeOfArray, double percentOfSort);
         /**
         Wykonuje pojedynczy test
         */
-        void makeTestOnArray(int arr[], int sizeOfArray, int whichSort);
+        void makeTestOnArray(T arr[], int sizeOfArray, int whichSort);
 };
 
 #endif // TABLE_H

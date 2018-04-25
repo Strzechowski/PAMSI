@@ -5,6 +5,8 @@
 
 using namespace std;
 
+
+template <class T>
 class Sorts
 {
     public:
@@ -13,56 +15,56 @@ class Sorts
         /**
         Publiczna funkcja do wywolania sortowania przez scalanie
         */
-        void mergeSort(int arr[], int arrSize);
+        void mergeSort(T arr[], int arrSize);
         /**
         Publiczna funkcja do wywolania sortowania szybkiego
         */
-        void quickSort(int arr[], int arrSize);
-        /**
-        Funkcja wywolujaca sortowanie przez wstawianie
-        */
-        void insertionSort(int arr[], int arrSize);
-        /**
-        Funkcja wywolujaca sortowanie przez kopcowanie
-        */
-        void heapSort(int arr[], int arrSize);
+        void quickSort(T arr[], int arrSize);
         /**
         Funkcja do wywolania sortowania introspektywnego
         */
-        void introspectiveSort(int arr[], int arrSize);
+        void introspectiveSort(T arr[], int arrSize);
     protected:
 
     private:
         /**
+        Funkcja wywolujaca sortowanie przez wstawianie
+        */
+        void insertionSort(T arr[], int arrSize);
+        /**
+        Funkcja wywolujaca sortowanie przez kopcowanie
+        */
+        void heapSort(T arr[], int arrSize);
+        /**
         Prywatna funkcja wykorzystujaca rekurencje do sortowania przez scalanie
         */
-        void mergeSort(int arr[], int first, int last);
+        void mergeSort(T arr[], int first, int last);
         /**
         Funkcja scala juz posorowane tablice
         */
-        void merging(int arr[], int first, int middle, int last);
+        void merging(T arr[], int first, int middle, int last);
         /**
         Prywatna funkcja rekurencyjna do sortowania szybkiego
         */
-        void quickSort(int arr[], int first, int last);
+        void quickSort(T arr[], int first, int last);
         /**
-        Funkcja dzieli tablice na mniejsze i wieksze liczby wzgledem ostatniego elementu.
+        Funkcja dzieli tablice na mniejsze i wieksze liczby wzgledem pierwszego elementu.
         (Potrzebne do quick-sorta)
         */
-        int partitioning(int arr[], int first, int last);
+        T partitioning(T arr[], int first, int last);
         /**
         Funkcja sluzy do tworzenia kopca
         */
-        void heapify(int arr[], int rootIndex, int heapSize);
-
+        void heapify(T arr[], int rootIndex, int heapSize);
         /**
         Funkcja zamienia miejscami wartosci tablicy o podanych indeksach
         */
-        void swapValues(int arr[], int i, int j);
+        void swapValues(T arr[], int i, int j);
         /**
         Funkcja decyduje jakiego sortowanie uzyc w sortowaniu hybrydowym
         */
-        void introSort(int arr[], int arrSize, int depth);
+        void introSort(T arr[], int arrSize, int depth);
+
 };
 
 #endif // SORTS_H

@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    Table table;
+    Table <int> table;
     table.testSort();
     return 0;
 }

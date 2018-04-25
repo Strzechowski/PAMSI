@@ -1,114 +1,143 @@
 #include "Sorts.h"
 
-Sorts::Sorts()
+template <class T>
+Sorts<T>::Sorts()
 {
     //ctor
 }
 
-Sorts::~Sorts()
+template <class T>
+Sorts<T>::~Sorts()
 {
     //dtor
 }
 
-
-void Sorts::quickSort(int arr[], int arrSize)
+template <class T>
+void Sorts<T>::quickSort(T arr[], int arrSize)
 {
     quickSort(arr, 0, arrSize-1);
 }
 
-
-void Sorts::quickSort(int arr[], int first, int last)
+template <class T>
+void Sorts<T>::quickSort(T arr[], int first, int last)
 {
     if (first < last)
     {
-        int pivot = partitioning(arr, first, last);
-        quickSort(arr, first, pivot);
+        T pivot = partitioning(arr, first, last);
+        quickSort(arr, first, pivot -1);
         quickSort(arr, pivot + 1, last);
     }
 }
 
 
-int Sorts::partitioning(int arr[], int first, int last)
+template <class T>
+T Sorts<T>::partitioning(T arr[], int first, int last)
 {
     //Przyjmujemy pierwwszy element jako os
     //wzgledem niego bedziemy dzielic tablice na mniejsze i wieksze elementy
-    int pivot = arr[first];
+    T pivot = arr[first];
     //Bedziemy iterowac po tablicy od dwoch stron
     int i = first;
     int j = last;
     while (true)
     {
+        //Przeuwamy sie az znajdziemy element o indeksie j wiekszy od osi
+        // oraz i mniejszym od osi
         while (arr[j] > pivot)
-            j--;
+            --j;
         while (arr[i] < pivot)
-            i++;
+            ++i;
 
+        //jesli i jest wieksze od j to zwracamy j
         if (i >= j)
             return j;
 
+        //jesli nie to zamieniamy je miejscami i przesuwamy sie dalej
         swapValues(arr,i,j);
-        i++;
-        j--;
+        ++i;
+        --j;
     }
 }
 
 
-void Sorts::mergeSort(int arr[], int arrSize)
+template <class T>
+void Sorts<T>::mergeSort(T arr[], int arrSize)
 {
     mergeSort(arr, 0, arrSize-1);
 }
 
 
-void Sorts::mergeSort(int arr[], int first, int last)
+template <class T>
+void Sorts<T>::mergeSort(T arr[], int first, int last)
 {
     if (first < last)
     {
-        int middle = ( first + last )/2;
-
+        T middle = ( first + last )/2;
 
         mergeSort(arr, first, middle);
         mergeSort(arr, middle+1, last);
         merging(arr, first, middle, last);
-        //cout << "HALOO" << endl;
     }
 }
 
 
-void Sorts::merging(int arr[], int first, int middle, int last)
+
+template <class T>
+void Sorts<T>::merging(T arr[], int first, int middle, int last)
 {
-    int mergedIndex, leftIndex, rightIndex;
+    int i, j, k;
+    int leftSize = middle - first + 1;
+    int rightSize = last - middle;
 
-    //deklaracja tymczasowej tablicy i jej wypelnienie
-    int* tempArray=new int[last+1];
+    // Tworzymy tymczasowe tablice
+    T leftArr[leftSize], rightArr[rightSize];
 
-    for (leftIndex = first; leftIndex <= last; leftIndex++)
+    // Wypelniamy tablice
+    for (i = 0; i < leftSize; ++i)
+        leftArr[i] = arr[first + i];
+    for (j = 0; j < rightSize; ++j)
+        rightArr[j] = arr[middle + 1+ j];
+
+    //wlasciwe scalanie
+    i = 0; //indeks lewej tablicy
+    j = 0; //indeks prawej tablicy
+    k = first; //indeks prawdziwej tablicy, do ktorej kopiujemy elementy
+    //wykonujemy kopiowanie az ktoras z tablic pomocniczych sie skonczy
+    while (i < leftSize && j < rightSize)
     {
-        tempArray[leftIndex] = arr[leftIndex];
-    }
-
-    leftIndex = first;
-    rightIndex = middle + 1;
-    mergedIndex = first;
-    while(leftIndex <= middle && rightIndex <= last)
-    {
-        if (tempArray[leftIndex] < tempArray[rightIndex])
+        if (leftArr[i] <= rightArr[j])
         {
-            arr[mergedIndex++] = tempArray[leftIndex++];
+            arr[k] = leftArr[i];
+            ++i;
         }
         else
         {
-            arr[mergedIndex++] = tempArray[rightIndex++];
+            arr[k] = rightArr[j];
+            ++j;
         }
+        ++k;
     }
-    while(leftIndex <= middle)
+
+    // Kopiujemy pozostalosci tablic
+    while (i < leftSize)
     {
-        arr[mergedIndex++] = tempArray[leftIndex++];
+        arr[k] = leftArr[i];
+        ++i;
+        ++k;
     }
-    delete[] tempArray;
+    while (j < rightSize)
+    {
+        arr[k] = rightArr[j];
+        ++j;
+        ++k;
+    }
 }
 
 
-void Sorts::insertionSort(int arr[], int arrSize)
+
+
+template <class T>
+void Sorts<T>::insertionSort(T arr[], int arrSize)
 {
     int i,j;
     int temp;
@@ -122,10 +151,10 @@ void Sorts::insertionSort(int arr[], int arrSize)
         arr[j]=temp;
     }
 }
-void insertionSort(int arr[], int arrSize);void insertionSort(int arr[], int arrSize);
 
 
-void Sorts::heapSort(int arr[], int arrSize)
+template <class T>
+void Sorts<T>::heapSort(T arr[], int arrSize)
 {
     int i;
     //Najpierw tworzymy kopiec
@@ -141,7 +170,8 @@ void Sorts::heapSort(int arr[], int arrSize)
 }
 
 
-void Sorts::heapify(int arr[], int rootIndex, int heapSize)
+template <class T>
+void Sorts<T>::heapify(T arr[], int rootIndex, int heapSize)
 {
     int i,j;
     i = rootIndex;
@@ -154,27 +184,36 @@ void Sorts::heapify(int arr[], int rootIndex, int heapSize)
         {
             swapValues(arr,i,j);
         }
-        else break;
+        else
+        {
+            break;
+        }
+
+
         i=j;
     }
 }
 
 
-void Sorts::swapValues(int arr[], int i, int j)
+template <class T>
+void Sorts<T>::swapValues(T arr[], int i, int j)
 {
     int temp = arr[i];
     arr[i]=arr[j];
     arr[j]=temp;
 }
 
-void Sorts::introspectiveSort(int arr[], int arrSize)
+
+template <class T>
+void Sorts<T>::introspectiveSort(T arr[], int arrSize)
 {
     introSort(arr,arrSize,(int)floor(2*log(arrSize)/log(2)));
     insertionSort(arr,arrSize);
 }
 
 
-void Sorts::introSort(int arr[], int arrSize, int depth)
+template <class T>
+void Sorts<T>::introSort(T arr[], int arrSize, int depth)
 {
     int i;
     if (depth<=0)
@@ -188,3 +227,7 @@ void Sorts::introSort(int arr[], int arrSize, int depth)
     if (arrSize-1-i>9)
         introSort(arr+i+1,arrSize-1-i,depth-1);
 }
+
+template class Sorts<int>;
+template class Sorts<double>;
+template class Sorts<short>;

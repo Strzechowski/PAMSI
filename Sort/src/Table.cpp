@@ -1,22 +1,25 @@
 #include "Table.h"
 
-
-Table::Table()
+template <class T>
+Table<T>::Table()
 {
-    testAmount = 1;
+
 }
 
-Table::~Table()
+template <class T>
+Table<T>::~Table()
 {
     //dtor
 }
 
-int * Table::createArray(int arr[], int sizeOfArray, double percentOfSort)
+
+template <class T>
+T * Table<T>::createArray(T arr[], int sizeOfArray, double percentOfSort)
 {
     srand(time(0));
-    for (int i=0; i < sizeOfArray; i++)
+    for (int i=0; i < sizeOfArray; ++i)
     {
-        arr[i] = i;
+        arr[i] = i + 0.5;
     }
 
     if(percentOfSort == -1 )
@@ -24,46 +27,66 @@ int * Table::createArray(int arr[], int sizeOfArray, double percentOfSort)
         //Odwrocona tablica
         reverse(arr, arr + sizeOfArray);
         cout << "Tablica posortowana w odwrotnej  kolejnosci " << endl;
+        cout << " " << endl;
     }
     else
     {
         int whereToStartShuffle = (percentOfSort * sizeOfArray) / 100;
         random_shuffle(&arr[whereToStartShuffle], &arr[sizeOfArray]);
+        cout << " " << endl;
+        cout << " " << endl;
         cout << percentOfSort << "% poczatkowych elementow posortowanych" << endl;
+        cout << "Ilosc elementow tablicy: " << sizeOfArray << endl;
+        cout << " " << endl;
     }
     return arr;
 }
 
 
-void Table::printArray(int arr[], int sizeOfArray)
+template <class T>
+void Table<T>::printArray(T arr[], int sizeOfArray)
 {
-    for (int i=0; i<sizeOfArray; i++)
+    for (int i=0; i<sizeOfArray; ++i)
     {
         cout << arr[i] << endl;
     }
 }
 
-void Table::testSort()
+template <class T>
+void Table<T>::checkIfSortedGood(T arr[], int sizeOfArray)
 {
-    int sizeOfArray[] = {1000};
-    double percentOfSort[] = {-1};
-
-    for (int i = 0; i < testAmount; i++)
+    for (int i=1; i<sizeOfArray; ++i)
     {
-        for (const auto j : percentOfSort)
+        if (arr[i] < arr[i-1])
+            cout << "blednie posortowane" << endl;
+    }
+}
+
+
+template <class T>
+void Table<T>::testSort()
+{
+    int sizeOfArray[] = {50000 , 100000};
+    double percentOfSort[] = {0};
+
+    for (int i = 0; i < 2; ++i)
+    {
+        for (auto j : percentOfSort)
         {
             //Tworzymy 3 tablice dla 3 sortowan
-            int * mergeArray = new int[sizeOfArray[i]];
-            int * quickArray = new int[sizeOfArray[i]];
-            int * introArray = new int[sizeOfArray[i]];
+            T * mergeArray = new T[sizeOfArray[i]];
+            T * quickArray = new T[sizeOfArray[i]];
+            T * introArray = new T[sizeOfArray[i]];
 
             //Wypelniamy jedna i kopiujemy zawartosc do pozostalych
             createArray(mergeArray, sizeOfArray[i], j);
             copy(mergeArray, mergeArray + sizeOfArray[i], quickArray);
             copy(mergeArray, mergeArray + sizeOfArray[i], introArray);
 
+
             //Wykonujemy testy
             makeTestOnArray(mergeArray, sizeOfArray[i], 1);
+            //checkIfSortedGood(mergeArray, sizeOfArray[i]);
             makeTestOnArray(quickArray, sizeOfArray[i], 2);
             makeTestOnArray(introArray, sizeOfArray[i], 3);
         }
@@ -71,9 +94,10 @@ void Table::testSort()
 }
 
 
-void Table::makeTestOnArray(int arr[], int sizeOfArray, int whichSort)
+template <class T>
+void Table<T>::makeTestOnArray(T arr[], int sizeOfArray, int whichSort)
 {
-    Sorts sorts;
+    Sorts <T> sorts;
 
     //Zaczynamy pomiar czasu
     auto start = chrono::high_resolution_clock::now();
@@ -81,7 +105,6 @@ void Table::makeTestOnArray(int arr[], int sizeOfArray, int whichSort)
     //Wybieramy algorytm sortowania
     if (whichSort == 1)
     {
-        cout << "dzialaaaa" << endl;
         sorts.mergeSort(arr, sizeOfArray);
         cout << "SORTOWANIE PRZEZ SCALANIE" << endl;
     }
@@ -104,3 +127,7 @@ void Table::makeTestOnArray(int arr[], int sizeOfArray, int whichSort)
     cout << "Czas sortowania: " << elapsed.count() << " s\n";
     cout << " " << endl;
 }
+
+template class Table<int>;
+template class Table<double>;
+template class Table<short>;
