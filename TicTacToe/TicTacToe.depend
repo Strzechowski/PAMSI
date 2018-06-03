@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1527879573 source:c:\users\rafal\desktop\pamsi\tictactoe\main.cpp
+	<iostream>
+	"Board.h"
+
+1527985239 c:\users\rafal\desktop\pamsi\tictactoe\include\board.h
+	<iostream>
+
+1528042861 source:c:\users\rafal\desktop\pamsi\tictactoe\src\board.cpp
+	"Board.h"
+	<windows.h>
+
