@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
-#include <iostream>
+#include "Computer.h"
+#include "BoardSituation.h"
 
 using namespace std;
 
@@ -17,9 +18,10 @@ class Board
 
     private:
         /**
-        Pola przechowuja bok tablicy i ilosc jej pul
+        Zmienne okreslajace wielkosc planszy
         */
         int SideOfBoard, BoardSize;
+
         /**
         Rysuje plansze w aktualnej sytuacji
         */
@@ -37,23 +39,13 @@ class Board
         */
         void humanMove(int board[], int yourSide);
         /**
-        Funkcja sprawdza, czy dany gracz wygral
-        */
-        bool checkIfWon(int board[], int whichFigure);
-        /**
-        Funkcja sprawdza, czy nastapil remis
-        */
-        bool checkIfDrawn(int board[]);
-        /**
         Przelicza pozycje elementu na planszy na element tablicy
         */
         int countActualElement(int verticalNumber, int horizontalNumber);
-
-        int minimax(int board[], int whichPlayer);
         /**
-        Funkcja decyduje o ruchu komputera
+        Sprawdza czy gra sie skonczyla
         */
-        void computerMove(int board[]);
+        int checkScore(int board[], int whichSide);
 };
 
 #endif // BOARD_H

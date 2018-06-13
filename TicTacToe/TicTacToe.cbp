@@ -35,8 +35,12 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/Board.h" />
+		<Unit filename="include/BoardSituation.h" />
+		<Unit filename="include/Computer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Board.cpp" />
+		<Unit filename="src/BoardSituation.cpp" />
+		<Unit filename="src/Computer.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

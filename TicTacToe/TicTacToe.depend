@@ -1,12 +1,25 @@
 # depslib dependency file v1.0
-1527879573 source:c:\users\rafal\desktop\pamsi\tictactoe\main.cpp
-	<iostream>
+1528881108 source:c:\users\rafal\desktop\pamsi\tictactoe\main.cpp
 	"Board.h"
 
-1527985239 c:\users\rafal\desktop\pamsi\tictactoe\include\board.h
-	<iostream>
+1528881130 c:\users\rafal\desktop\pamsi\tictactoe\include\board.h
+	"Computer.h"
+	"BoardSituation.h"
 
-1528042861 source:c:\users\rafal\desktop\pamsi\tictactoe\src\board.cpp
+1528881551 source:c:\users\rafal\desktop\pamsi\tictactoe\src\board.cpp
 	"Board.h"
 	<windows.h>
+
+1528107498 source:c:\users\rafal\desktop\pamsi\tictactoe\src\boardsituation.cpp
+	"BoardSituation.h"
+
+1528880157 c:\users\rafal\desktop\pamsi\tictactoe\include\boardsituation.h
+
+1528880157 c:\users\rafal\desktop\pamsi\tictactoe\include\computer.h
+	"BoardSituation.h"
+	<iostream>
+	<algorithm>
+
+1528911912 source:c:\users\rafal\desktop\pamsi\tictactoe\src\computer.cpp
+	"Computer.h"
 
